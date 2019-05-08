@@ -194,7 +194,6 @@ namespace OSProject
             var ratio = 10;
 
             p.Height = (4+totalSize)* ratio;
-            p.Width = 400;
             
             var w = 100;
             var font = new Font(new FontFamily(GenericFontFamilies.Serif), 13);
@@ -237,14 +236,14 @@ namespace OSProject
                     var separator = new Rectangle(w+2, startPosition, (int)(p.Width * 0.5) - 3, 1);
 
                     var brush = new SolidBrush(Color.Black);
-                    g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, (int)(p.Width * 0.77), startPosition);
+                    g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, (int)(p.Width * 0.73), startPosition);
                     g.FillRectangle(new SolidBrush(Color.Black), separator);
 
 
                     //End Address
                     separator = new Rectangle(w+2, startPosition + hole.Size * ratio, (int)(p.Width * 0.5) - 3, 1);
 
-                    g.DrawString(@"Hole End:" + (int)(hole.StartAddress + hole.Size), font, brush, (int)(p.Width * 0.77), startPosition + hole.Size * ratio - ratio);
+                    g.DrawString(@"Hole End:" + (int)(hole.StartAddress + hole.Size), font, brush, (int)(p.Width * 0.73), startPosition + hole.Size * ratio - ratio);
                     g.FillRectangle(new SolidBrush(Color.Black), separator);
                 }
             }
@@ -315,9 +314,8 @@ namespace OSProject
             MemorySize.Enabled = true;
             SetSizeBtn.Enabled = true;
 
-            MainMemory.Processes.Clear();
-            RefreshDataGridViews();
             MainMemory.Reset();
+            RefreshDataGridViews();
             panel1.Invalidate();
         }
 

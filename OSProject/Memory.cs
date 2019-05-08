@@ -46,7 +46,7 @@ namespace OSProject
                 if (Enumerable.Range(h.StartAddress,h.Size)
                     .Contains(hole.StartAddress))
                 {
-                    int sizeToAdd = h.StartAddress + h.Size - hole.StartAddress;
+                    int sizeToAdd = hole.Size - (h.StartAddress + h.Size - hole.StartAddress);
                     h.Size += sizeToAdd;
                     MessageBox.Show(@"The hole starting address is inside another hole already! So, we extended the previous hole ;)");
                     return true;
@@ -72,6 +72,7 @@ namespace OSProject
             Holes.Clear();
             Segments.Clear();
             Processes.Clear();
+            Size = 0;
         }
 
         public bool TryAllocateProcess(Process process)
@@ -80,7 +81,7 @@ namespace OSProject
             var Process = Processes.Find(p => p == process);
             foreach (var segment in Process.Segments)
             {
-                if (Holes.Count(h => h.AvailableSize >= segment.Size) > 0)
+                if (Holes.Count(hole => hole.AvailableSize >= segment.Size) > 0)
                 {
                     var hole = Holes.First(h => h.AvailableSize >= segment.Size);
                     segment.Allocate(hole);

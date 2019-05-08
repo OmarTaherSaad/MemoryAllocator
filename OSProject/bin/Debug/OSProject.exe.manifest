@@ -71,14 +71,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OSProject.exe" size="34760">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OSProject.exe" size="35272">
       <assemblyIdentity name="OSProject" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Hk7AspWynwBTMteYvgkIPcWec/rrF8zyELg8annyts4=</dsig:DigestValue>
+        <dsig:DigestValue>KPfmPu3hO7KnpAAaIBLkBYxcvPw5+M2IyyQFTDysAQk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
