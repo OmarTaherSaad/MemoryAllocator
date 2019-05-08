@@ -1,0 +1,15 @@
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\OSProject.exe.config
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\OSProject.exe
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\OSProject.pdb
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\MetroFramework.dll
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\MetroFramework.Fonts.dll
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.csprojResolveAssemblyReference.cache
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.Properties.Resources.resources
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.csproj.GenerateResource.Cache
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.exe
+c:\users\omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.pdb
+C:\Users\Omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.CPUSchedulerForm.resources
+C:\Users\Omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\OSProject.exe.manifest
+C:\Users\Omar\documents\visual studio 2017\Projects\OSProject\OSProject\bin\Debug\OSProject.application
+C:\Users\Omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.exe.manifest
+C:\Users\Omar\documents\visual studio 2017\Projects\OSProject\OSProject\obj\Debug\OSProject.application
