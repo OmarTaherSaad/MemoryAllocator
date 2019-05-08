@@ -13,3 +13,18 @@ C:\Users\Omar\Documents\Visual Studio 2017\Projects\OSProject 2\OSProject\bin\De
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\OSProject 2\OSProject\obj\Debug\OSProject.exe.manifest
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\OSProject 2\OSProject\obj\Debug\OSProject.application
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\OSProject 2\OSProject\obj\Debug\OSProject.MemoryAllocatorForm.resources
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.exe.config
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.exe.manifest
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.application
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.exe
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.pdb
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\MetroFramework.dll
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\MetroFramework.Fonts.dll
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject2.csprojResolveAssemblyReference.cache
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.MemoryAllocatorForm.resources
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.Properties.Resources.resources
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject2.csproj.GenerateResource.Cache
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.exe.manifest
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.application
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.exe
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.pdb

@@ -27,6 +27,8 @@ namespace OSProject
             AllocateProcessSelector.DisplayMember = "Name";
             AllocateProcessSelector.ValueMember = "Number";
 
+            RefreshDeallocateSelector();
+
             //DataGridViews Bindings
             RefreshDataGridViews();
 
@@ -86,8 +88,12 @@ namespace OSProject
                 return;
             }
 
-            //Reinitialize Processes
-            ReInitializeProcesses();
+            //Reinitialize Processes if all
+            if (AllocateAll.Checked)
+            {
+                ReInitializeProcesses();
+            }
+            
 
             //Make Sure all data was entered
             foreach (var process in MainMemory.Processes)
@@ -164,7 +170,7 @@ namespace OSProject
                 }
             }
 
-            DeallocateProcessSelector.DataSource = MainMemory.Processes.Where(p => p.Allocated);
+            RefreshDeallocateSelector();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -172,12 +178,12 @@ namespace OSProject
             DrawTimeline();
         }
 
-        private void DrawTimeline()
+        private void DrawTimeline(bool DrawProcesses = true, bool DrawHoles = true, bool DrawMemory = true)
         {
             if (!MainMemory.Segments.Any())
             {
                 panel1.CreateGraphics().Clear(Color.White);
-                return;
+                
             }
 
             var p = panel1;
@@ -187,85 +193,94 @@ namespace OSProject
             //var ratio = (p.Width - 5)/ totalSize;
             var ratio = 10;
 
-            p.Height = (2+totalSize)* ratio;
-
-            var w = 10;
+            p.Height = (4+totalSize)* ratio;
+            p.Width = 400;
+            
+            var w = 100;
             var font = new Font(new FontFamily(GenericFontFamilies.Serif), 13);
 
             g.Clear(Color.White);
 
-            /*Draw Memory addresses*/
-            //Start and End
-            //Start Address
-            var separator1 = new Rectangle(w, ratio, (int)(p.Width * 0.5),1);
-
-            var brush1 = new SolidBrush(Color.Black);
-            g.DrawString(@"Mem Start:0", font, brush1, (int)(p.Width * 0.6),ratio/3);
-            g.FillRectangle(new SolidBrush(Color.Black), separator1);
-
-            separator1 = new Rectangle(w, (1+MainMemory.Size )* ratio, (int)(p.Width * 0.5), 1);
-
-            g.DrawString(@"Mem End:"+MainMemory.Size, font, brush1, (int)(p.Width * 0.5), (MainMemory.Size + 1)* ratio);
-            g.FillRectangle(new SolidBrush(Color.Black), separator1);
-
-            //Draw the hole memory
-            var WholeMemory = new Rectangle(w, ratio, (int)(p.Width * 0.5), MainMemory.Size * ratio);
-            g.DrawRectangle(new Pen(Color.Black), WholeMemory);
-            g.FillRectangle(new SolidBrush(Color.Black), WholeMemory);
-
-            //Draw All Holes
-            foreach (var hole in MainMemory.Holes)
+            //Check memory is set
+            if (MainMemory.Size == 0)
             {
-                var startPosition = 30 + hole.StartAddress * ratio;
-                //Allocation rectangle
-                var rectangle = new Rectangle(w, startPosition, (int)(p.Width * 0.5), hole.Size * ratio);
-                g.DrawRectangle(new Pen(Color.Black), rectangle);
-                g.FillRectangle(new SolidBrush(Color.Brown), rectangle);
-
+                return;
+            }
+            /*Draw Memory addresses*/
+            if (DrawMemory)
+            {
+                //Start and End
                 //Start Address
-                var separator = new Rectangle(w, startPosition, (int)(p.Width * 0.5), 1);
+                var brush1 = new SolidBrush(Color.Black);
+                g.DrawString(@"Mem Start:0", font, brush1, (int)(p.Width * 0.2), 0);
 
-                var brush = new SolidBrush(Color.Black);
-                g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, (int)(p.Width * 0.55), startPosition - ratio/2);
-                g.FillRectangle(new SolidBrush(Color.Black), separator);
+                g.DrawString(@"Mem End:" + MainMemory.Size, font, brush1, (int)(p.Width * 0.2), (MainMemory.Size + 2) * ratio);
 
-
-                //End Address
-                separator = new Rectangle(w, startPosition + hole.Size * ratio, (int)(p.Width * 0.5), 1);
-
-                g.DrawString(@"Hole End:" + (int)(hole.StartAddress+hole.Size), font, brush, (int)(p.Width * 0.55), startPosition + hole.Size * ratio + ratio/2);
-                g.FillRectangle(new SolidBrush(Color.Black), separator);
+                //Draw the hole memory
+                var WholeMemory = new Rectangle(w, 2*ratio, (int)(p.Width * 0.5), MainMemory.Size * ratio);
+                g.DrawRectangle(new Pen(Color.Black), WholeMemory);
+                g.FillRectangle(new SolidBrush(Color.Black), WholeMemory);
             }
 
-            //Draw allocated processes
-            foreach (var process in MainMemory.Processes)
+            //Draw All Holes
+            if (DrawHoles)
             {
-                foreach (var segment in process.Segments.Where(s => s.IsAllocated))
+                foreach (var hole in MainMemory.Holes)
                 {
-                    //Draw..
-
-
-                    var startPosition = 30 + segment.AllocationStart * ratio;
+                    var startPosition = (2 + hole.StartAddress)* ratio;
                     //Allocation rectangle
-                    var rectangle = new Rectangle(w, startPosition, (int)(p.Width* 0.5), segment.Size * ratio);
+                    var rectangle = new Rectangle(w+2, startPosition, (int)(p.Width * 0.5) - 3, hole.Size * ratio);
                     g.DrawRectangle(new Pen(Color.Black), rectangle);
-                    g.FillRectangle(new SolidBrush(Color.Red), rectangle);
-                    //Process Title
-                    g.DrawString(process.Name+" | "+segment.Name, font, new SolidBrush(Color.Blue), w, startPosition);
+                    g.FillRectangle(new SolidBrush(Color.Brown), rectangle);
 
                     //Start Address
-                    var separator = new Rectangle(w, startPosition, (int)(p.Width * 0.5),1);
-                    
+                    var separator = new Rectangle(w+2, startPosition, (int)(p.Width * 0.5) - 3, 1);
+
                     var brush = new SolidBrush(Color.Black);
-                    g.DrawString(@"Addr: " + segment.AllocationStart, font, brush, (int)(p.Width* 0.55), startPosition - 30);
+                    g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, (int)(p.Width * 0.77), startPosition);
                     g.FillRectangle(new SolidBrush(Color.Black), separator);
 
 
                     //End Address
-                    separator = new Rectangle(w,startPosition + segment.Size* ratio, (int)(p.Width * 0.5),1);
+                    separator = new Rectangle(w+2, startPosition + hole.Size * ratio, (int)(p.Width * 0.5) - 3, 1);
 
-                    g.DrawString(@"Addr: " + segment.AllocationEnd, font, brush, (int)(p.Width * 0.55), startPosition + segment.Size* ratio - 30);
+                    g.DrawString(@"Hole End:" + (int)(hole.StartAddress + hole.Size), font, brush, (int)(p.Width * 0.77), startPosition + hole.Size * ratio - ratio);
                     g.FillRectangle(new SolidBrush(Color.Black), separator);
+                }
+            }
+
+            //Draw allocated processes
+            if (DrawProcesses)
+            {
+                foreach (var process in MainMemory.Processes.Where(proc => proc.Allocated))
+                {
+                    foreach (var segment in process.Segments.Where(s => s.IsAllocated))
+                    {
+                        //Draw..
+
+
+                        var startPosition = (2 + segment.AllocationStart )* ratio;
+                        //Allocation rectangle
+                        var rectangle = new Rectangle(w, startPosition, (int)(p.Width * 0.5), segment.Size * ratio);
+                        g.DrawRectangle(new Pen(Color.Black), rectangle);
+                        g.FillRectangle(new SolidBrush(Color.Red), rectangle);
+                        //Process Title
+                        g.DrawString(process.Name + " | " + segment.Name, font, new SolidBrush(Color.Blue), w, startPosition);
+
+                        //Start Address
+                        var separator = new Rectangle(w, startPosition, (int)(p.Width * 0.5), 1);
+
+                        var brush = new SolidBrush(Color.Black);
+                        g.DrawString(@"Addr: " + segment.AllocationStart, font, brush, 10, startPosition - ratio);
+                        g.FillRectangle(new SolidBrush(Color.Black), separator);
+
+
+                        //End Address
+                        separator = new Rectangle(w, startPosition + segment.Size * ratio, (int)(p.Width * 0.5), 1);
+
+                        g.DrawString(@"Addr: " + segment.AllocationEnd, font, brush, 10, startPosition + (segment.Size - 1)* ratio);
+                        g.FillRectangle(new SolidBrush(Color.Black), separator);
+                    }
                 }
             }
         }
@@ -291,6 +306,8 @@ namespace OSProject
             //Prevent Changing memory size to avoid errors if segments/processes were added.
             MemorySize.Enabled = false;
             SetSizeBtn.Enabled = false;
+
+            DrawTimeline(false,false);
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
@@ -336,6 +353,8 @@ namespace OSProject
             MainMemory.AddHole(newHole);
 
             RefreshDataGridViews();
+
+            DrawTimeline();
         }
 
         private void DeallocateBtn_Click(object sender, EventArgs e)
@@ -354,7 +373,15 @@ namespace OSProject
                 MainMemory.Holes[index2] = segment.Deallocate();
             }
 
+            RefreshDeallocateSelector();
             DrawTimeline();
+        }
+
+        private void RefreshDeallocateSelector()
+        {
+            DeallocateProcessSelector.DataSource = MainMemory.Processes.Any(p => p.Allocated) ? MainMemory.Processes.Where(p => p.Allocated).ToList() : null;
+            DeallocateProcessSelector.DisplayMember = "Name";
+            DeallocateProcessSelector.ValueMember = "Number";
         }
     }
 }

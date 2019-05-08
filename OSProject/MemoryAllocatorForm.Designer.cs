@@ -170,7 +170,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(313, 646);
+            this.label1.Location = new System.Drawing.Point(313, 743);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(657, 20);
             this.label1.TabIndex = 4;
@@ -178,7 +178,7 @@
             // 
             // AllocateBtn
             // 
-            this.AllocateBtn.Location = new System.Drawing.Point(102, 159);
+            this.AllocateBtn.Location = new System.Drawing.Point(91, 114);
             this.AllocateBtn.Name = "AllocateBtn";
             this.AllocateBtn.Size = new System.Drawing.Size(138, 37);
             this.AllocateBtn.TabIndex = 5;
@@ -188,9 +188,9 @@
             // 
             // ResetBtn
             // 
-            this.ResetBtn.Location = new System.Drawing.Point(21, 580);
+            this.ResetBtn.Location = new System.Drawing.Point(1186, 76);
             this.ResetBtn.Name = "ResetBtn";
-            this.ResetBtn.Size = new System.Drawing.Size(150, 56);
+            this.ResetBtn.Size = new System.Drawing.Size(103, 39);
             this.ResetBtn.TabIndex = 6;
             this.ResetBtn.Text = "Reset";
             this.ResetBtn.UseVisualStyleBackColor = true;
@@ -214,20 +214,17 @@
             this.ParentPanel.AutoScroll = true;
             this.ParentPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.ParentPanel.Controls.Add(this.panel1);
-            this.ParentPanel.Location = new System.Drawing.Point(1099, 68);
+            this.ParentPanel.Location = new System.Drawing.Point(788, 125);
             this.ParentPanel.Margin = new System.Windows.Forms.Padding(10);
             this.ParentPanel.Name = "ParentPanel";
-            this.ParentPanel.Size = new System.Drawing.Size(335, 588);
+            this.ParentPanel.Size = new System.Drawing.Size(501, 608);
             this.ParentPanel.TabIndex = 9;
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(327, 580);
+            this.panel1.Size = new System.Drawing.Size(466, 596);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
@@ -445,7 +442,7 @@
             // 
             this.MemoryLabel.AutoSize = true;
             this.MemoryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
-            this.MemoryLabel.Location = new System.Drawing.Point(1207, 23);
+            this.MemoryLabel.Location = new System.Drawing.Point(979, 76);
             this.MemoryLabel.Name = "MemoryLabel";
             this.MemoryLabel.Size = new System.Drawing.Size(139, 39);
             this.MemoryLabel.TabIndex = 13;
@@ -463,7 +460,7 @@
             // AllocateAll
             // 
             this.AllocateAll.AutoSize = true;
-            this.AllocateAll.Location = new System.Drawing.Point(12, 92);
+            this.AllocateAll.Location = new System.Drawing.Point(12, 75);
             this.AllocateAll.Name = "AllocateAll";
             this.AllocateAll.Size = new System.Drawing.Size(287, 33);
             this.AllocateAll.TabIndex = 14;
@@ -476,9 +473,9 @@
             this.DeallocateGroupBox.Controls.Add(this.label6);
             this.DeallocateGroupBox.Controls.Add(this.DeallocateBtn);
             this.DeallocateGroupBox.Controls.Add(this.DeallocateProcessSelector);
-            this.DeallocateGroupBox.Location = new System.Drawing.Point(787, 294);
+            this.DeallocateGroupBox.Location = new System.Drawing.Point(328, 573);
             this.DeallocateGroupBox.Name = "DeallocateGroupBox";
-            this.DeallocateGroupBox.Size = new System.Drawing.Size(309, 266);
+            this.DeallocateGroupBox.Size = new System.Drawing.Size(447, 165);
             this.DeallocateGroupBox.TabIndex = 12;
             this.DeallocateGroupBox.TabStop = false;
             this.DeallocateGroupBox.Text = "Deallocate";
@@ -497,17 +494,17 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Zeytoon", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label6.Location = new System.Drawing.Point(6, 150);
-            this.label6.MaximumSize = new System.Drawing.Size(300, 0);
+            this.label6.Location = new System.Drawing.Point(5, 80);
+            this.label6.MaximumSize = new System.Drawing.Size(400, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(299, 105);
+            this.label6.Size = new System.Drawing.Size(387, 70);
             this.label6.TabIndex = 2;
             this.label6.Text = "Or to deallocate old process, just insert a hole in its address with the desired " +
     "size";
             // 
             // DeallocateBtn
             // 
-            this.DeallocateBtn.Location = new System.Drawing.Point(102, 100);
+            this.DeallocateBtn.Location = new System.Drawing.Point(303, 30);
             this.DeallocateBtn.Name = "DeallocateBtn";
             this.DeallocateBtn.Size = new System.Drawing.Size(138, 36);
             this.DeallocateBtn.TabIndex = 4;
@@ -521,7 +518,7 @@
             this.DeallocateProcessSelector.Location = new System.Drawing.Point(142, 30);
             this.DeallocateProcessSelector.Margin = new System.Windows.Forms.Padding(5);
             this.DeallocateProcessSelector.Name = "DeallocateProcessSelector";
-            this.DeallocateProcessSelector.Size = new System.Drawing.Size(144, 37);
+            this.DeallocateProcessSelector.Size = new System.Drawing.Size(155, 37);
             this.DeallocateProcessSelector.TabIndex = 0;
             // 
             // AllocateGroupBox
@@ -530,9 +527,9 @@
             this.AllocateGroupBox.Controls.Add(this.AllocateAll);
             this.AllocateGroupBox.Controls.Add(this.AllocateProcessSelector);
             this.AllocateGroupBox.Controls.Add(this.AllocateBtn);
-            this.AllocateGroupBox.Location = new System.Drawing.Point(787, 68);
+            this.AllocateGroupBox.Location = new System.Drawing.Point(12, 572);
             this.AllocateGroupBox.Name = "AllocateGroupBox";
-            this.AllocateGroupBox.Size = new System.Drawing.Size(309, 219);
+            this.AllocateGroupBox.Size = new System.Drawing.Size(309, 166);
             this.AllocateGroupBox.TabIndex = 12;
             this.AllocateGroupBox.TabStop = false;
             this.AllocateGroupBox.Text = "Allocate";
@@ -551,7 +548,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1441, 667);
+            this.ClientSize = new System.Drawing.Size(1296, 764);
             this.Controls.Add(this.MemoryLabel);
             this.Controls.Add(this.AllocateGroupBox);
             this.Controls.Add(this.DeallocateGroupBox);
