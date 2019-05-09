@@ -20,7 +20,6 @@ C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bi
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\OSProject.pdb
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\MetroFramework.dll
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Debug\MetroFramework.Fonts.dll
-C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject2.csprojResolveAssemblyReference.cache
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.MemoryAllocatorForm.resources
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.Properties.Resources.resources
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject2.csproj.GenerateResource.Cache

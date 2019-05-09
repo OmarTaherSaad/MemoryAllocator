@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -11,6 +12,9 @@ namespace OSProject
         public List<Segment> Segments => Processes.SelectMany(p => p.Segments).ToList();
         public List<Process> Processes;
         public int Size { get; set; }
+
+        public BindingList<Hole> HolesBindingList => new BindingList<Hole>(Holes);
+        public BindingList<Segment> SegmentsBindingList => new BindingList<Segment>(Segments);
 
         public Memory()
         {
@@ -78,8 +82,7 @@ namespace OSProject
         public bool TryAllocateProcess(Process process)
         {
             var segmentNotAllocated = false;
-            var Process = Processes.Find(p => p == process);
-            foreach (var segment in Process.Segments)
+            foreach (var segment in process.Segments)
             {
                 if (Holes.Count(hole => hole.AvailableSize >= segment.Size) > 0)
                 {
@@ -97,7 +100,7 @@ namespace OSProject
             if (segmentNotAllocated)
             {
                 //Deallocate any previously allocated segments
-                foreach (var segment in Process.Segments.Where(s => s.IsAllocated == true))
+                foreach (var segment in process.Segments.Where(s => s.IsAllocated))
                 {
                     var index= Holes.FindIndex(h => h == segment.Hole);
                     Holes[index] = segment.Deallocate();

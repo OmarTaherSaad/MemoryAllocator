@@ -1,0 +1,15 @@
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\OSProject.exe.config
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\OSProject.exe.manifest
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\OSProject.application
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\OSProject.exe
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\OSProject.pdb
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\MetroFramework.dll
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\bin\Release\MetroFramework.Fonts.dll
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.MemoryAllocatorForm.resources
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.Properties.Resources.resources
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject2.csproj.GenerateResource.Cache
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.exe.manifest
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.application
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.exe
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject.pdb
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Release\OSProject2.csprojResolveAssemblyReference.cache
