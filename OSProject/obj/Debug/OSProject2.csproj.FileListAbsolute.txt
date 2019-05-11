@@ -27,3 +27,4 @@ C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\ob
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.application
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.exe
 C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject.pdb
+C:\Users\Omar\Documents\Visual Studio 2017\Projects\MemoryAllocator\OSProject\obj\Debug\OSProject2.csprojResolveAssemblyReference.cache

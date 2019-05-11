@@ -16,6 +16,8 @@ namespace OSProject
         public BindingList<Hole> HolesBindingList => new BindingList<Hole>(Holes);
         public BindingList<Segment> SegmentsBindingList => new BindingList<Segment>(Segments);
 
+        public int AllocationMethod { get; set; }
+
         public Memory()
         {
             Holes = new List<Hole>();
@@ -47,21 +49,33 @@ namespace OSProject
             foreach (var h in Holes)
             {
                 //Check the starting address is not inside another hole already!
-                if (Enumerable.Range(h.StartAddress,h.Size)
+                if (Enumerable.Range(h.StartAddress,h.Size+1)
                     .Contains(hole.StartAddress))
                 {
-                    int sizeToAdd = hole.Size - (h.StartAddress + h.Size - hole.StartAddress);
-                    h.Size += sizeToAdd;
+                    var sizeToAdd = hole.Size - (h.StartAddress + h.Size - hole.StartAddress);
+                    if (sizeToAdd > 0)
+                        h.Size += sizeToAdd;
                     MessageBox.Show(@"The hole starting address is inside another hole already! So, we extended the previous hole ;)");
                     return true;
                 }
                 //Check if the hole's end will overlap another hole!
-                if (Enumerable.Range(hole.StartAddress,hole.Size)
+                if (Enumerable.Range(hole.StartAddress,hole.Size+1)
                     .Contains(h.StartAddress))
                 {
-                    int sizeToSubtract = hole.StartAddress + hole.Size - h.StartAddress;
-                    h.Size += hole.Size - sizeToSubtract;
-                    h.StartAddress = hole.StartAddress;
+                    //Check if the old hole is fully included in the new one
+                    if (Enumerable.Range(hole.StartAddress, hole.Size + 1)
+                        .Contains(h.StartAddress + h.Size))
+                    {
+                        h.StartAddress = hole.StartAddress;
+                        h.Size = hole.Size;
+                    }
+                    else
+                    {
+                        var sizeToSubtract = hole.StartAddress + hole.Size - h.StartAddress;
+                        if (sizeToSubtract > 0)
+                            h.Size += hole.Size - sizeToSubtract;
+                        h.StartAddress = hole.StartAddress;
+                    }
                     MessageBox.Show(@"Another hole's starting address will be inside this hole! So, we modified the previous hole's starting address, and extended its size ;)");
                     return true;
                 }
@@ -84,6 +98,25 @@ namespace OSProject
             var segmentNotAllocated = false;
             foreach (var segment in process.Segments)
             {
+                switch (AllocationMethod)
+                {
+                    /*
+                     * 0- First Fit
+                     * 1- Best Fit
+                     * 2- Worst Fit
+                     */
+                    case 0: //First Fit
+                        Holes = Holes.OrderBy(h => h.StartAddress).ToList();
+                        break;
+                    case 1: //Best Fit
+                        Holes = Holes.OrderBy(h => h.AvailableSize).ThenBy(h => h.StartAddress).ToList();
+                        break;
+                    case 2: //Worst Fit
+                        Holes = Holes.OrderByDescending(h => h.AvailableSize).ToList();
+                        break;
+                }
+
+
                 if (Holes.Count(hole => hole.AvailableSize >= segment.Size) > 0)
                 {
                     var hole = Holes.First(h => h.AvailableSize >= segment.Size);

@@ -12,6 +12,11 @@ namespace OSProject
     {
         public Memory MainMemory;
 
+        public bool DrawMemory;
+        public bool DrawHole;
+        public bool DrawProcess;
+
+
         public MemoryAllocatorForm()
         {
             InitializeComponent();
@@ -19,6 +24,10 @@ namespace OSProject
             MainMemory = new Memory();
 
             RefreshDataGridViews();
+
+            DrawMemory = true;
+            DrawHole = true;
+            DrawProcess = true;
         }
 
         private void RefreshDataGridViews()
@@ -40,6 +49,12 @@ namespace OSProject
 
             //Allow to add segments
             AddSegmentBtn.Enabled = true;
+
+            //Select a process in Process Selector if none is selected already
+            if (ProcessSelector.SelectedIndex < 0)
+            {
+                ProcessSelector.SelectedIndex = 0;
+            }
         }
 
         private void AllocateBtn_Click(object sender, EventArgs e)
@@ -83,11 +98,9 @@ namespace OSProject
             //Make Sure all data was entered
             foreach (var process in MainMemory.Processes)
             {
-                if (!process.HasAllData())
-                {
-                    MessageBox.Show(process.Name + @" didn't get all its segments data! Please fill more segments in it.");
-                    return;
-                }
+                if (process.HasAllData()) continue;
+                MessageBox.Show(process.Name + @" didn't get all its segments data! Please fill more segments in it.");
+                return;
             }
             //Check that user chose a process to allocate or choose 'all'
             if (!AllocateAll.Checked && AllocateProcessSelector.SelectedIndex < 0)
@@ -100,26 +113,20 @@ namespace OSProject
             AllocateBtn.Enabled = false;
 
             //Switching to start scheduling
-            switch (TypeComboBox.SelectedIndex)
-            {
-                /*
-                 * 0- First Fit
-                 * 1- Best Fit
-                 * 2- Worst Fit
-                 */
-                case 0: //First Fit
-                    MainMemory.Holes = MainMemory.Holes.OrderBy(h => h.StartAddress).ToList();
-                    break;
-                case 1: //Best Fit
-                    MainMemory.Holes = MainMemory.Holes.OrderBy(h => h.Size).ThenBy(h => h.StartAddress).ToList();
-                    break;
-                case 2: //Worst Fit
-                    MainMemory.Holes = MainMemory.Holes.OrderByDescending(h => h.Size).ToList();
-                    break;
-            }
+            /*
+             * 0- First Fit
+             * 1- Best Fit
+             * 2- Worst Fit
+             */
+            MainMemory.AllocationMethod = TypeComboBox.SelectedIndex;
 
             Allocate();
+
+            DrawMemory = true;
+            DrawHole = true;
+            DrawProcess = true;
             DrawTimeline();
+
             AllocateBtn.Text = @"Allocate";
             AllocateBtn.Enabled = true;
         }
@@ -133,6 +140,11 @@ namespace OSProject
                 {
                     if (MainMemory.TryAllocateProcess(process))
                     {
+                        AllocateProcessSelector.Items.Remove(process);
+
+                        DrawMemory = true;
+                        DrawHole = true;
+                        DrawProcess = true;
                         DrawTimeline();
                     }
                     else
@@ -144,9 +156,14 @@ namespace OSProject
             else
             {
                 //Allocate One
-                var process = MainMemory.Processes[AllocateProcessSelector.SelectedIndex];
+                var process = MainMemory.Processes.First(p => p == (Process)AllocateProcessSelector.SelectedItem);
                 if (MainMemory.TryAllocateProcess(process))
                 {
+                    AllocateProcessSelector.Items.Remove(process);
+
+                    DrawMemory = true;
+                    DrawHole = true;
+                    DrawProcess = true;
                     DrawTimeline();
                 }
                 else
@@ -163,7 +180,7 @@ namespace OSProject
             DrawTimeline();
         }
 
-        private void DrawTimeline(bool drawProcesses = true, bool drawHoles = true, bool drawMemory = true)
+        private void DrawTimeline()
         {
             if (!MainMemory.Segments.Any())
             {
@@ -176,13 +193,28 @@ namespace OSProject
             //Total size and mapping it to total width
             var totalSize = MainMemory.Size;
             //Drawing scale
-            var ratio = 20;
+            var ratio = 10;
+            
+            if (totalSize > 0)
+            {
+                ratio = p.Parent.Height * 2 / totalSize;
+                if (ratio == 0)
+                {
+                    ratio = 1;
+                }
 
-            p.Height = (4+totalSize)* ratio;
+                if (ratio > 10)
+                {
+                    ratio = 10;
+                }
+            }
             
             var w = 80;
             var drawWidth = (int) (p.Width * 0.4);
             var font = new Font(new FontFamily(GenericFontFamilies.SansSerif), 13,FontStyle.Italic);
+            var drawingStart = font.Height / 2;
+
+            p.Height = totalSize * ratio + font.Height;
 
             g.Clear(Color.White);
 
@@ -192,27 +224,29 @@ namespace OSProject
                 return;
             }
             /*Draw Memory addresses*/
-            if (drawMemory)
+            if (DrawMemory)
             {
                 //Start and End
                 //Start Address
-                var brush1 = new SolidBrush(Color.Black);
-                g.DrawString(@"Mem Start:0", font, brush1, w, 0);
-
-                g.DrawString(@"Mem End:" + MainMemory.Size, font, brush1, w, (MainMemory.Size + 2) * ratio);
+                var brush1 = new SolidBrush(Color.DarkGreen);
+                if (showLabelsInDraw.Checked)
+                {
+                    g.DrawString(@"Mem:0", font, brush1, 1, drawingStart);
+                    g.DrawString(@"Mem:" + MainMemory.Size, font, brush1, 1, MainMemory.Size* ratio - drawingStart);
+                }
 
                 //Draw the hole memory
-                var wholeMemory = new Rectangle(w-2, 2*ratio, drawWidth+3, MainMemory.Size * ratio);
+                var wholeMemory = new Rectangle(w-2, drawingStart, drawWidth+3, MainMemory.Size * ratio);
                 g.DrawRectangle(new Pen(Color.Black), wholeMemory);
                 g.FillRectangle(new SolidBrush(Color.Black), wholeMemory);
             }
 
             //Draw All Holes
-            if (drawHoles)
+            if (DrawHole)
             {
                 foreach (var hole in MainMemory.Holes)
                 {
-                    var startPosition = (2 + hole.StartAddress)* ratio;
+                    var startPosition = drawingStart + hole.StartAddress* ratio;
                     //Allocation rectangle
                     var rectangle = new Rectangle(w, startPosition, drawWidth, hole.Size * ratio);
                     g.DrawRectangle(new Pen(Color.Black), rectangle);
@@ -222,20 +256,25 @@ namespace OSProject
                     var separator = new Rectangle(w, startPosition, (int)(drawWidth * 1.1), 2);
 
                     var brush = new SolidBrush(Color.Black);
-                    g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, w + (int)(drawWidth*1.1), startPosition - font.Height/2);
+
+                    if (showLabelsInDraw.Checked)
+                        g.DrawString(@"Hole Start:" + hole.StartAddress, font, brush, w + (int)(drawWidth*1.1), startPosition - drawingStart);
+
                     g.FillRectangle(new SolidBrush(Color.Blue), separator);
 
 
                     //End Address
                     separator = new Rectangle(w, startPosition + hole.Size * ratio, (int)(drawWidth * 1.4), 2);
 
-                    g.DrawString(@"Hole End:" + (hole.StartAddress + hole.Size), font, brush, w + (int)(drawWidth * 1.4), startPosition + hole.Size * ratio - font.Height/2);
+                    if (showLabelsInDraw.Checked)
+                        g.DrawString(@"Hole End:" + (hole.StartAddress + hole.Size), font, brush, w + (int)(drawWidth * 1.4), startPosition + hole.Size * ratio - drawingStart);
+
                     g.FillRectangle(new SolidBrush(Color.Blue), separator);
                 }
             }
 
             //Draw allocated processes
-            if (drawProcesses)
+            if (DrawProcess)
             {
                 foreach (var process in MainMemory.Processes.Where(proc => proc.Allocated))
                 {
@@ -244,26 +283,33 @@ namespace OSProject
                         //Draw..
 
 
-                        var startPosition = (2 + segment.AllocationStart )* ratio;
+                        var startPosition = (drawingStart + segment.AllocationStart )* ratio;
                         //Allocation rectangle
                         var rectangle = new Rectangle(w, startPosition, drawWidth, segment.Size * ratio);
                         g.DrawRectangle(new Pen(Color.Black), rectangle);
                         g.FillRectangle(new SolidBrush(Color.Red), rectangle);
-                        //Process Title
-                        g.DrawString(process.Name + " | " + segment.Name, font, new SolidBrush(Color.Blue), w, startPosition);
+
+                        if (showLabelsInDraw.Checked)
+                            //Process Title
+                            g.DrawString(process.Name + " | " + segment.Name, font, new SolidBrush(Color.Blue), w, startPosition);
 
                         //Start Address
                         var separator = new Rectangle(w, startPosition, drawWidth, 1);
 
                         var brush = new SolidBrush(Color.Black);
-                        g.DrawString(@"Addr:" + segment.AllocationStart, font, brush, 1, startPosition - font.Height/2);
+
+                        if (showLabelsInDraw.Checked)
+                            g.DrawString(@"Addr:" + segment.AllocationStart, font, brush, 1, startPosition - drawingStart);
+
                         g.FillRectangle(new SolidBrush(Color.Black), separator);
 
 
                         //End Address
                         separator = new Rectangle(w, startPosition + segment.Size * ratio, drawWidth, 1);
 
-                        g.DrawString(@"Addr:" + segment.AllocationEnd, font, brush, 1, startPosition + segment.Size * ratio - font.Height / 2);
+                        if (showLabelsInDraw.Checked)
+                            g.DrawString(@"Addr:" + segment.AllocationEnd, font, brush, 1, startPosition + segment.Size * ratio - drawingStart);
+
                         g.FillRectangle(new SolidBrush(Color.Black), separator);
                     }
                 }
@@ -292,7 +338,10 @@ namespace OSProject
             MemorySize.Enabled = false;
             SetSizeBtn.Enabled = false;
 
-            DrawTimeline(false,false);
+            DrawMemory = true;
+            DrawHole = false;
+            DrawProcess = false;
+            DrawTimeline();
         }
 
         private void ResetBtn_Click(object sender, EventArgs e)
@@ -309,6 +358,7 @@ namespace OSProject
 
         private void ResetProcessSelectors()
         {
+            
             ProcessSelector.Items.Clear();
             AllocateProcessSelector.Items.Clear();
             DeallocateProcessSelector.Items.Clear();
@@ -360,6 +410,9 @@ namespace OSProject
 
             RefreshDataGridViews();
 
+            DrawMemory = true;
+            DrawHole = true;
+            DrawProcess = true;
             DrawTimeline();
         }
 
@@ -380,23 +433,28 @@ namespace OSProject
             }
 
             RefreshDeallocateSelector();
+            AllocateProcessSelector.Items.Add(MainMemory.Processes[index]);
+
+            DrawMemory = true;
+            DrawHole = true;
+            DrawProcess = true;
             DrawTimeline();
         }
 
         private void RefreshDeallocateSelector()
         {
-            DeallocateProcessSelector.DataSource = MainMemory.Processes.Any(p => p.Allocated) ? MainMemory.Processes.Where(p => p.Allocated).ToList() : null;
-            DeallocateProcessSelector.DisplayMember = "Name";
-            DeallocateProcessSelector.ValueMember = "Number";
+            DeallocateProcessSelector.Items.Clear();
+            if (MainMemory.Processes.Any(p => p.Allocated))
+                DeallocateProcessSelector.Items.AddRange(MainMemory.Processes.Where(p => p.Allocated).ToArray());
         }
 
         private void MemoryAllocatorForm_Load(object sender, EventArgs e)
         {
             ProcessSelector.DisplayMember = "Name";
-            ProcessSelector.ValueMember = "Number";
 
             AllocateProcessSelector.DisplayMember = "Name";
-            AllocateProcessSelector.ValueMember = "Number";
+
+            DeallocateProcessSelector.DisplayMember = "Name";
 
             RefreshDeallocateSelector();
 
@@ -428,6 +486,11 @@ namespace OSProject
             {
                 SegmentsGroupBox.Text = @"Segments (No segments remaining)";
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            DrawTimeline();
         }
     }
 }

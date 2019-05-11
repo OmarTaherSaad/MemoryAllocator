@@ -68,6 +68,7 @@
             this.DeallocateProcessSelector = new System.Windows.Forms.ComboBox();
             this.AllocateGroupBox = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.showLabelsInDraw = new System.Windows.Forms.CheckBox();
             this.ProcessGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ProcessSegmentsCount)).BeginInit();
             this.ParentPanel.SuspendLayout();
@@ -443,7 +444,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MemoryLabel.AutoSize = true;
             this.MemoryLabel.Font = new System.Drawing.Font("Zeytoon", 20F, System.Drawing.FontStyle.Bold);
-            this.MemoryLabel.Location = new System.Drawing.Point(917, 57);
+            this.MemoryLabel.Location = new System.Drawing.Point(917, 33);
             this.MemoryLabel.Name = "MemoryLabel";
             this.MemoryLabel.Size = new System.Drawing.Size(146, 59);
             this.MemoryLabel.TabIndex = 13;
@@ -548,11 +549,26 @@
             this.label4.TabIndex = 2;
             this.label4.Text = "Select Process";
             // 
+            // showLabelsInDraw
+            // 
+            this.showLabelsInDraw.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.showLabelsInDraw.AutoSize = true;
+            this.showLabelsInDraw.Checked = true;
+            this.showLabelsInDraw.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showLabelsInDraw.Location = new System.Drawing.Point(859, 82);
+            this.showLabelsInDraw.Name = "showLabelsInDraw";
+            this.showLabelsInDraw.Size = new System.Drawing.Size(262, 32);
+            this.showLabelsInDraw.TabIndex = 14;
+            this.showLabelsInDraw.Text = "Show labels on drawing";
+            this.showLabelsInDraw.UseVisualStyleBackColor = true;
+            this.showLabelsInDraw.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // MemoryAllocatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1233, 751);
+            this.Controls.Add(this.showLabelsInDraw);
             this.Controls.Add(this.MemoryLabel);
             this.Controls.Add(this.AllocateGroupBox);
             this.Controls.Add(this.DeallocateGroupBox);
@@ -640,6 +656,7 @@
         private System.Windows.Forms.GroupBox AllocateGroupBox;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView HolesDataGridView;
+        private System.Windows.Forms.CheckBox showLabelsInDraw;
     }
 }
 
