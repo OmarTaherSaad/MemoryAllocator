@@ -66,6 +66,9 @@ namespace OSProject
                     if (Enumerable.Range(hole.StartAddress, hole.Size + 1)
                         .Contains(h.StartAddress + h.Size))
                     {
+
+                        if (h.FreeIndex == h.StartAddress)
+                            h.FreeIndex = hole.StartAddress;
                         h.StartAddress = hole.StartAddress;
                         h.Size = hole.Size;
                     }
@@ -74,9 +77,27 @@ namespace OSProject
                         var sizeToSubtract = hole.StartAddress + hole.Size - h.StartAddress;
                         if (sizeToSubtract > 0)
                             h.Size += hole.Size - sizeToSubtract;
+                        if (h.FreeIndex == h.StartAddress)
+                            h.FreeIndex = hole.StartAddress;
                         h.StartAddress = hole.StartAddress;
                     }
+
                     MessageBox.Show(@"Another hole's starting address will be inside this hole! So, we modified the previous hole's starting address, and extended its size ;)");
+
+                    //Check if there is any processes allocated
+                    if (Processes.Count(p => p.Allocated) > 0)
+                    {
+                        var allocatedProcesses = Processes.Where(p => p.Allocated).ToList();
+                        DeallocateAll();
+                        //Reallocate them
+                        foreach (var process in allocatedProcesses)
+                        {
+                            if (!TryAllocateProcess(process))
+                            {
+                                MessageBox.Show(@"The Process " + process.Name + @" cannot be reallocated for now!");
+                            }
+                        }
+                    }
                     return true;
                 }
             }
@@ -144,6 +165,14 @@ namespace OSProject
             }
 
             return true;
+        }
+
+        public void DeallocateAll()
+        {
+            foreach (var segment in Processes.SelectMany(p => p.Segments))
+            {
+                segment.Deallocate();
+            }
         }
     }
 }

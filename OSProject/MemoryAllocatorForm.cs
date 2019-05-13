@@ -88,25 +88,34 @@ namespace OSProject
                 return;
             }
 
+            //Check that user chose a process to allocate or choose 'all'
+            if (!AllocateAll.Checked && AllocateProcessSelector.SelectedIndex < 0)
+            {
+                MessageBox.Show(@"You must choose the process to allocate or check the 'Allocate all' box!");
+                return;
+            }
+
             //Reinitialize Processes if all
             if (AllocateAll.Checked)
             {
                 ReInitializeProcesses();
-            }
-            
 
-            //Make Sure all data was entered
-            foreach (var process in MainMemory.Processes)
-            {
-                if (process.HasAllData()) continue;
-                MessageBox.Show(process.Name + @" didn't get all its segments data! Please fill more segments in it.");
-                return;
+                //Make Sure all data was entered
+                foreach (var process in MainMemory.Processes)
+                {
+                    if (process.HasAllData()) continue;
+                    MessageBox.Show(process.Name + @" didn't get all its segments data! Please fill more segments in it.");
+                    return;
+                }
             }
-            //Check that user chose a process to allocate or choose 'all'
-            if (!AllocateAll.Checked && AllocateProcessSelector.SelectedIndex < 0)
+            else
             {
-                   MessageBox.Show(@"You must choose the process to allocate or check the 'Allocate all' box!");
-                return;
+                var process = MainMemory.Processes.First(p => p == (Process)AllocateProcessSelector.SelectedItem);
+                if (!process.HasAllData())
+                {
+                    MessageBox.Show(process.Name + @" didn't get all its segments data! Please fill more segments in it.");
+                    return;
+                }
             }
 
                 AllocateBtn.Text = @"Allocating..";
@@ -280,10 +289,7 @@ namespace OSProject
                 {
                     foreach (var segment in process.Segments.Where(s => s.IsAllocated))
                     {
-                        //Draw..
-
-
-                        var startPosition = (drawingStart + segment.AllocationStart )* ratio;
+                        var startPosition = drawingStart + segment.AllocationStart * ratio;
                         //Allocation rectangle
                         var rectangle = new Rectangle(w, startPosition, drawWidth, segment.Size * ratio);
                         g.DrawRectangle(new Pen(Color.Black), rectangle);
